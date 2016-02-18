@@ -1,0 +1,3 @@
+* Sql exercises from wikibooks
+
+  - https://en.wikibooks.org/wiki/SQL_Exercises
