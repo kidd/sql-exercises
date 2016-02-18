@@ -1,0 +1,180 @@
+* Delete
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+delete table Movies;
+delete table MovieTheaters;
+#+END_SRC
+
+* Create
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ CREATE TABLE Movies (
+   Code INTEGER PRIMARY KEY NOT NULL,
+   Title TEXT NOT NULL,
+   Rating TEXT
+ );
+
+ CREATE TABLE MovieTheaters (
+   Code INTEGER PRIMARY KEY NOT NULL,
+   Name TEXT NOT NULL,
+   Movie INTEGER
+     CONSTRAINT fk_Movies_Code REFERENCES Movies(Code)
+ );
+#+END_SRC
+
+* Insert
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+
+ INSERT INTO Movies(Code,Title,Rating) VALUES(1,'Citizen Kane','PG');
+ INSERT INTO Movies(Code,Title,Rating) VALUES(2,'Singin'' in the Rain','G');
+ INSERT INTO Movies(Code,Title,Rating) VALUES(3,'The Wizard of Oz','G');
+ INSERT INTO Movies(Code,Title,Rating) VALUES(4,'The Quiet Man',NULL);
+ INSERT INTO Movies(Code,Title,Rating) VALUES(5,'North by Northwest',NULL);
+ INSERT INTO Movies(Code,Title,Rating) VALUES(6,'The Last Tango in Paris','NC-17');
+ INSERT INTO Movies(Code,Title,Rating) VALUES(7,'Some Like it Hot','PG-13');
+ INSERT INTO Movies(Code,Title,Rating) VALUES(8,'A Night at the Opera',NULL);
+
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(1,'Odeon',5);
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(2,'Imperial',1);
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(3,'Majestic',NULL);
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(4,'Royale',6);
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(5,'Paraiso',3);
+ INSERT INTO MovieTheaters(Code,Name,Movie) VALUES(6,'Nickelodeon',NULL);
+#+END_SRC
+
+* Theatres
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+
+
+** Select the title of all movies.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT Title
+   FROM Movies;
+#+END_SRC
+
+
+** Show all the distinct ratings in the database.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT DISTINCT Rating
+   FROM Movies;
+#+END_SRC
+
+
+** Show all unrated movies.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT *
+   FROM Movies
+  WHERE Rating IS NULL;
+#+END_SRC
+
+
+** Select all movie theaters that are not currently showing a movie.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT *
+   FROM MovieTheaters
+  WHERE Movie IS NULL;
+#+END_SRC
+
+
+** Select all data from all movie theaters and, additionally, the data from the movie that is being shown in the theater (if one is being shown).
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT *
+   FROM MovieTheaters LEFT JOIN Movies
+   ON MovieTheaters.Movie = Movies.Code;
+#+END_SRC
+
+
+
+** Select all data from all movies and, if that movie is being shown in a theater, show the data from the theater.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ SELECT *
+   FROM MovieTheaters RIGHT JOIN Movies
+   ON MovieTheaters.Movie = Movies.Code;
+#+END_SRC
+
+
+
+** Show the titles of movies not currently being shown in any theaters.
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ /* With JOIN */
+ SELECT Movies.Title
+   FROM MovieTheaters RIGHT JOIN Movies
+   ON MovieTheaters.Movie = Movies.Code
+   WHERE MovieTheaters.Movie IS NULL;
+
+ /* With subquery */
+ SELECT Title FROM Movies
+   WHERE Code NOT IN
+   (
+     SELECT Movie FROM MovieTheaters
+     WHERE Movie IS NOT NULL
+   );
+#+END_SRC
+
+
+** Add the unrated movie "One, Two, Three".
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ INSERT INTO Movies(Title,Rating) VALUES('One, Two, Three',NULL);
+#+END_SRC
+
+
+** Set the rating of all unrated movies to "G".
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ UPDATE Movies SET Rating='G' WHERE Rating IS NULL;
+#+END_SRC
+
+
+** Remove movie theaters projecting movies rated "NC-17".
+
+*** Do it
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+END_SRC
+*** solution
+#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+ DELETE FROM MovieTheaters WHERE Movie IN
+   (SELECT Code FROM Movies WHERE Rating = 'NC-17');
+#+END_SRC
