@@ -1,9 +1,9 @@
 * Delete
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db scientists.sqlite
 #+END_SRC
 
 * Create
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db scientists.sqlite
 create table Scientists (
   SSN int,
   Name Char(30) not null,
@@ -27,7 +27,7 @@ create table AssignedTo (
 #+END_SRC
 
 * Insert
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db scientists.sqlite
  INSERT INTO Scientists(SSN,Name)
   VALUES(123234877,'Michael Rogers'),
     (152934485,'Anand Manikutty'),

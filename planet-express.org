@@ -1,6 +1,6 @@
 * Delete
 * Create
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 CREATE TABLE Employee (
   EmployeeID INTEGER PRIMARY KEY NOT NULL,
   Name TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE Package (
 );
 #+END_SRC
 * Insert
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 INSERT INTO Client VALUES(1, 'Zapp Brannigan');
 INSERT INTO Client VALUES(2, 'Al Gore"s Head');
 INSERT INTO Client VALUES(3, 'Barbados Slim');
@@ -111,10 +111,10 @@ The first several exercises build on each other and illustrate the use of subque
 Who receieved a 1.5kg package?
 
 *** Do it
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 #+END_SRC
 *** solution
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 SELECT Client.Name
 FROM Client JOIN Package
   ON Client.AccountNumber = Package.Recipient
@@ -125,11 +125,11 @@ WHERE Package.weight = 1.5;
 What is the total weight of all the packages that he sent?
 
 *** Do it
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 #+END_SRC
 *** solution
 
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 SELECT SUM(p.weight)
 FROM Client AS c
   JOIN Package as P
@@ -158,10 +158,10 @@ Which pilots transported those packages?
 
 
 *** Do it
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 #+END_SRC
 *** solution
-#+BEGIN_SRC sqlite :db movie-theatres.sqlite
+#+BEGIN_SRC sqlite :db planet-express.sqlite
 SELECT Employee.Name
 FROM Employee
   JOIN Shipment ON Shipment.Manager = Employee.EmployeeID
