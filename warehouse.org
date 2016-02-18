@@ -1,3 +1,11 @@
+* Delete
+#+begin_src sqlite :db warehouse.sqlite
+drop table Warehouses;
+drop table Boxes;
+#+end_src
+
+#+RESULTS:
+
 * Create
 #+begin_src sqlite :db warehouse.sqlite
 CREATE TABLE Warehouses (
